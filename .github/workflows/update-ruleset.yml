@@ -50,12 +50,14 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          if git diff --quiet -- rules/; then
+          # 先入暂存区再比对：git diff 看不到未跟踪的新文件，
+          # 首次生成 rules/*.list 时会被误判成"无变化"而漏提交。
+          git add -A rules/
+          if git diff --cached --quiet -- rules/; then
             echo "规则无变化，跳过提交"
             exit 0
           fi
 
-          git add rules/
           git commit -m "chore: update DERP ruleset ($(date -u '+%Y-%m-%d'))"
           git push
           echo "已提交并推送更新"
