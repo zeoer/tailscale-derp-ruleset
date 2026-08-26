@@ -1,0 +1,126 @@
+{
+  "Regions": {
+    "1": {
+      "RegionID": 1,
+      "RegionCode": "nyc",
+      "RegionName": "New York City",
+      "Nodes": [
+        {
+          "Name": "1a",
+          "RegionID": 1,
+          "HostName": "derp1a.tailscale.com",
+          "IPv4": "199.38.181.104",
+          "IPv6": "2607:f740:e04a::a"
+        },
+        {
+          "Name": "1b",
+          "RegionID": 1,
+          "HostName": "derp1b.tailscale.com",
+          "IPv4": "199.38.181.105"
+        }
+      ]
+    },
+    "10": {
+      "RegionID": 10,
+      "RegionCode": "sea",
+      "RegionName": "Seattle",
+      "Nodes": [
+        {
+          "Name": "10a",
+          "RegionID": 10,
+          "HostName": "derp10a.tailscale.com",
+          "IPv4": "192.73.252.65",
+          "IPv6": "2607:f740:17::1",
+          "STUNOnly": true
+        },
+        {
+          "Name": "10b",
+          "RegionID": 10,
+          "HostName": "derp10b.tailscale.com",
+          "IPv4": "none",
+          "IPv6": ""
+        }
+      ]
+    },
+    "18": {
+      "RegionID": 18,
+      "RegionCode": "sin",
+      "RegionName": "Singapore",
+      "Nodes": [
+        {
+          "Name": "18a",
+          "RegionID": 18,
+          "HostName": "derp18a.tailscale.com",
+          "IPv4": "43.245.49.105",
+          "IPv6": "2401:fa00:41:200::a"
+        },
+        {
+          "Name": "18b",
+          "RegionID": 18,
+          "HostName": "DERP18B.Tailscale.COM.",
+          "IPv4": "43.245.49.105",
+          "IPv6": "2401:fa00:41:200::b"
+        },
+        {
+          "Name": "18c",
+          "RegionID": 18,
+          "HostName": "derp18c.tailscale.com",
+          "IPv4": "not-an-ip-address",
+          "IPv6": "2401:fa00:41:200::c"
+        },
+        {
+          "Name": "18d",
+          "RegionID": 18,
+          "HostName": "derp18d.tailscale.com",
+          "IPv4": "2401:fa00:41:200::d",
+          "IPv6": "43.245.49.106"
+        }
+      ]
+    },
+    "24": {
+      "RegionID": 24,
+      "RegionCode": "hkg",
+      "RegionName": "Hong Kong",
+      "Nodes": [
+        {
+          "Name": "24a",
+          "RegionID": 24,
+          "HostName": "derp24a.tailscale.com",
+          "IPv4": "127.0.0.1",
+          "IPv6": "::1"
+        },
+        {
+          "Name": "24b",
+          "RegionID": 24,
+          "HostName": "derp24b.tailscale.com",
+          "IPv4": "103.19.44.1"
+        }
+      ]
+    },
+    "99": {
+      "RegionID": 99,
+      "RegionCode": "zzz",
+      "RegionName": "Empty Region",
+      "Nodes": []
+    },
+    "100": {
+      "RegionID": 100,
+      "RegionCode": "bad",
+      "RegionName": "Malformed Region",
+      "Nodes": [
+        "this is not a node object",
+        null,
+        {
+          "Name": "100a",
+          "HostName": "derp100a.tailscale.com",
+          "IPv4": "45.159.98.1"
+        }
+      ]
+    },
+    "101": {
+      "RegionID": 101,
+      "RegionCode": "nonodes",
+      "RegionName": "No Nodes Key"
+    }
+  }
+}
