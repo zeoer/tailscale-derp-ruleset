@@ -27,7 +27,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        # 钉到 commit SHA 而不是 @v7：tag 是可变的，上游仓库一旦被劫持，
+        # 重新指向的 tag 会让任意代码拿到本仓库的 contents:write 权限。
+        # Dependabot 认得这种"SHA + 版本注释"写法，照样会提 PR 升级。
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       # 脚本只用 Python 标准库，不需要 setup-python 和 pip install。
       # 少一个 action 依赖，就少一个供应链风险面。
