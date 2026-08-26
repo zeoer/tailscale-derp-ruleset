@@ -27,7 +27,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # 脚本只用 Python 标准库，不需要 setup-python 和 pip install。
       # 少一个 action 依赖，就少一个供应链风险面。
