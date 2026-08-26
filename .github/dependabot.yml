@@ -1,0 +1,12 @@
+version: 2
+updates:
+  # 只盯 GitHub Actions 的版本更新。项目本身没有任何第三方依赖，
+  # 脚本纯标准库，所以不需要 pip / npm 生态。
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "chore"
+    labels:
+      - "dependencies"

@@ -1,0 +1,76 @@
+name: Update DERP ruleset
+
+on:
+  schedule:
+    # 每天 UTC 04:17 = 台北时间 12:17
+    # 用非整点是为了避开 GitHub 定时任务在整点的拥堵（整点排队可能延迟十几分钟）
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+  push:
+    # 改了生成逻辑就立刻重跑一次，方便验证
+    paths:
+      - "scripts/gen_derp_ruleset.py"
+      - ".github/workflows/update-ruleset.yml"
+
+# 同一时间只允许一个运行，避免定时任务和手动触发撞车导致推送冲突
+concurrency:
+  group: update-ruleset
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 脚本只用 Python 标准库，不需要 setup-python 和 pip install。
+      # 少一个 action 依赖，就少一个供应链风险面。
+      - name: Show Python version
+        run: python3 --version
+
+      - name: Generate ruleset
+        run: |
+          python3 scripts/gen_derp_ruleset.py \
+            --out-dir rules \
+            --basename tailscale-derp
+          # 想开启更多输出，把下面的参数加到上面这条命令后面：
+          #   --emit-domains        额外输出 DERP 主机名的 DOMAIN 规则
+          #   --split-regions       额外按大区生成 tailscale-derp-<group>.list
+          #   --include-stun-only   包含 STUNOnly 节点（默认过滤）
+
+      - name: Commit if changed
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet -- rules/; then
+            echo "规则无变化，跳过提交"
+            exit 0
+          fi
+
+          git add rules/
+          git commit -m "chore: update DERP ruleset ($(date -u '+%Y-%m-%d'))"
+          git push
+          echo "已提交并推送更新"
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### DERP ruleset"
+            echo
+            if [ -f rules/tailscale-derp.list ]; then
+              head -n 4 rules/tailscale-derp.list | sed 's/^# //'
+              echo
+              echo "规则行数: $(grep -cvE '^\s*(#|$)' rules/tailscale-derp.list)"
+            else
+              echo "规则文件尚未生成"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
