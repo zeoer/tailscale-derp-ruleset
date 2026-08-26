@@ -45,6 +45,11 @@ jobs:
           #   --include-stun-only   包含 STUNOnly 节点（默认过滤）
 
       - name: Commit if changed
+        # 只有 main 上的运行才回写。Dependabot 等分支上的 push 也会触发本
+        # workflow，那时只跑生成逻辑当作一次校验，不往那些分支提交。
+        if: github.ref_name == 'main'
+        env:
+          BRANCH: main
         run: |
           set -euo pipefail
           git config user.name  "github-actions[bot]"
@@ -59,8 +64,22 @@ jobs:
           fi
 
           git commit -m "chore: update DERP ruleset ($(date -u '+%Y-%m-%d'))"
-          git push
-          echo "已提交并推送更新"
+
+          # push 事件触发的运行 checkout 的是它自己那个提交，跑到这一步时
+          # main 可能已经往前走了，直推会被判非快进而失败。先 rebase 到最新
+          # main 再推；本提交只动 rules/，rebase 不会有冲突。
+          # 失败重试一次，覆盖"拉完到推之间又有新提交"的窄窗口。
+          for attempt in 1 2 3; do
+            git pull --rebase origin "$BRANCH"
+            if git push origin "HEAD:$BRANCH"; then
+              echo "已提交并推送更新"
+              exit 0
+            fi
+            echo "推送被拒（第 $attempt 次），重新 rebase 后重试"
+            sleep 5
+          done
+          echo "::error::连续 3 次推送失败，规则未能提交"
+          exit 1
 
       - name: Summary
         if: always()
