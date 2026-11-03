@@ -1,7 +1,7 @@
 # Tailscale DERP relay nodes (Surge rule-set)
 # Source: https://controlplane.tailscale.com/derpmap/default
-# Nodes: 88  Rules: 176
-# Updated: 2026-08-26 16:25:17 UTC
+# Nodes: 89  Rules: 178
+# Updated: 2026-11-03 12:00:13 UTC
 #
 # 自动生成，请勿手工编辑。修改逻辑见 scripts/gen_derp_ruleset.py
 # ---- generated below, do not edit by hand ----
@@ -12,6 +12,7 @@ IP-CIDR,45.159.97.233/32,no-resolve
 IP-CIDR,45.159.98.145/32,no-resolve
 IP-CIDR,45.159.98.196/32,no-resolve
 IP-CIDR,45.159.98.253/32,no-resolve
+IP-CIDR,46.62.141.44/32,no-resolve
 IP-CIDR,49.12.193.137/32,no-resolve
 IP-CIDR,49.13.204.141/32,no-resolve
 IP-CIDR,65.109.143.62/32,no-resolve
@@ -171,6 +172,7 @@ IP-CIDR6,2a01:4f8:1c1c:5c70::1/128,no-resolve
 IP-CIDR6,2a01:4f9:c012:2e5b::1/128,no-resolve
 IP-CIDR6,2a01:4f9:c012:cd74::1/128,no-resolve
 IP-CIDR6,2a01:4f9:c012:d55c::1/128,no-resolve
+IP-CIDR6,2a01:4f9:c014:f18e::1/128,no-resolve
 IP-CIDR6,2a01:4ff:f0:28d4::1/128,no-resolve
 IP-CIDR6,2a01:4ff:f0:3913::1/128,no-resolve
 IP-CIDR6,2a01:4ff:f0:3c8e::1/128,no-resolve
